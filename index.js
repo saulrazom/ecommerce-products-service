@@ -10,6 +10,10 @@ app.use(express.json())
 const setupSwaggerDocs = require('./utils/swagger')
 setupSwaggerDocs(app)
 
+// Serve UI Interface for Test Coverage
+const path = require('path')
+app.use('/coverage', express.static(path.join(__dirname, 'coverage/lcov-report')))
+
 app.get('/health/db', async (_req, res) => {
   try {
     const out = await client.send(new ListTablesCommand({ Limit: 10 }))

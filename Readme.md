@@ -151,7 +151,26 @@ We provide a pre-configured Postman Collection so frontend developers can easily
 
 ## 4. Running Unit Tests
 To run the Jest test suite and generate a code coverage report for the API:
+
+**Local Environment:**
 ```bash
 npm test
 ```
+
+**Inside Docker Container:**
+To ensure tests run correctly in the Linux environment without stopping your server:
+```bash
+docker-compose exec products-service npm test
+```
+
+### 📊 Visualizing Test Coverage (HTML Report)
+When you run the tests, Jest automatically generates a visual, interactive HTML report of your code coverage.
+
+1. Ensure your server is running (`npm run dev` or `docker-compose up`).
+2. Run the tests at least once to generate the report data (e.g. `npm test`).
+3. Open your browser and navigate to:
+   👉 **[http://localhost:3000/coverage](http://localhost:3000/coverage)**
+
+Here you can click through your folders and see exact line-by-line coverage highlighted in green/red/yellow.
+
 The test suite utilizes mocks (`aws-sdk-client-mock`) to simulate DynamoDB and S3 interactions, so it runs completely offline safely.
