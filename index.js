@@ -7,6 +7,9 @@ const { client, docClient } = require('./utils/dynamoclient')
 const app = express() // <- debe existir antes de usar app.get(...)
 app.use(express.json())
 
+const setupSwaggerDocs = require('./utils/swagger')
+setupSwaggerDocs(app)
+
 app.get('/health/db', async (_req, res) => {
   try {
     const out = await client.send(new ListTablesCommand({ Limit: 10 }))
@@ -36,19 +39,8 @@ app.get('/health/db/table', async (_req, res) => {
   }
 })
 
-app.get('/products', async (_req, res) => {
-  try {
-    const out = await docClient.send(new ScanCommand({ TableName: process.env.PRODUCTS_TABLE }))
-    return res.json({ ok: true, products: out.Items || [] })
-  } catch (error) {
-    console.error('[GET PRODUCTS ERROR]', {
-      name: error?.name,
-      message: error?.message,
-      metadata: error?.$metadata,
-    })
-    return res.status(500).json({ ok: false, products: [], error: error?.name || 'UnknownError' })
-  }
-})
+const productRoutes = require('./routes/product.routes')
+app.use('/products', productRoutes)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
