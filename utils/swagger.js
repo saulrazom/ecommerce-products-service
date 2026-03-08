@@ -22,6 +22,7 @@ const options = {
             currency: { type: 'string', description: 'Currency used for the price', example: 'MXN' },
             stock: { type: 'number', description: 'Available stock quantity', example: 50 },
             isActive: { type: 'boolean', description: 'Indicates if the product is available', example: true },
+            imageUrl: { type: 'string', description: 'URL of the product image stored in S3', example: 'https://my-bucket.s3.us-east-2.amazonaws.com/products/1234.jpg' },
             createdAt: { type: 'string', format: 'date-time', description: 'Creation timestamp', example: '2026-03-05T18:30:00Z' },
             updatedAt: { type: 'string', format: 'date-time', description: 'Last update timestamp', example: '2026-03-05T18:30:00Z' }
           }

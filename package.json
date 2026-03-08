@@ -21,10 +21,13 @@
   "homepage": "https://github.com/saulrazom/ecommerce-products-service#readme",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.1002.0",
+    "@aws-sdk/client-s3": "^3.1004.0",
     "@aws-sdk/lib-dynamodb": "^3.1002.0",
+    "@aws-sdk/lib-storage": "^3.1004.0",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "multer": "^2.1.1",
     "nodemon": "^3.1.14",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"

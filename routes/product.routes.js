@@ -1,4 +1,6 @@
 const { Router } = require('express');
+const multer = require('multer');
+
 const {
   getProducts,
   getProductById,
@@ -8,6 +10,7 @@ const {
 } = require('../controllers/product.controllers');
 
 const router = Router();
+const upload = multer({ storage: multer.memoryStorage() });
 
 /**
  * @swagger
@@ -61,7 +64,7 @@ router.get('/:id', getProductById);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -72,6 +75,10 @@ router.get('/:id', getProductById);
  *               currency: { type: 'string', example: 'MXN' }
  *               stock: { type: 'number', example: 50 }
  *               isActive: { type: 'boolean', example: true }
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: Product image to upload to S3
  *     responses:
  *       201:
  *         description: The created product.
@@ -80,7 +87,7 @@ router.get('/:id', getProductById);
  *             schema:
  *               $ref: '#/components/schemas/Product'
  */
-router.post('/', createProduct);
+router.post('/', upload.single('image'), createProduct);
 
 /**
  * @swagger
@@ -98,7 +105,7 @@ router.post('/', createProduct);
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             type: object
  *             properties:
@@ -108,6 +115,10 @@ router.post('/', createProduct);
  *               price: { type: 'number', example: 450.00 }
  *               currency: { type: 'string', example: 'MXN' }
  *               isActive: { type: 'boolean', example: true }
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: New product image to upload to S3 (optional)
  *     responses:
  *       200:
  *         description: The updated product.
@@ -116,7 +127,7 @@ router.post('/', createProduct);
  *             schema:
  *               $ref: '#/components/schemas/Product'
  */
-router.put('/:id', updateProduct);
+router.put('/:id', upload.single('image'), updateProduct);
 
 /**
  * @swagger
