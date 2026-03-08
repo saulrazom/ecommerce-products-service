@@ -8,7 +8,44 @@ const TableName = process.env.PRODUCTS_TABLE || config.productsTable;
 
 const getProducts = async (req, res) => {
     try {
-        const out = await docClient.send(new ScanCommand({ TableName }));
+        const { category, minPrice, maxPrice, isActive } = req.query;
+
+        let FilterExpression = [];
+        let ExpressionAttributeValues = {};
+        let ExpressionAttributeNames = {};
+
+        if (category) {
+            FilterExpression.push('#cat = :category');
+            ExpressionAttributeNames['#cat'] = 'category';
+            ExpressionAttributeValues[':category'] = category;
+        }
+
+        if (minPrice !== undefined) {
+            FilterExpression.push('price >= :minPrice');
+            ExpressionAttributeValues[':minPrice'] = Number(minPrice);
+        }
+
+        if (maxPrice !== undefined) {
+            FilterExpression.push('price <= :maxPrice');
+            ExpressionAttributeValues[':maxPrice'] = Number(maxPrice);
+        }
+
+        if (isActive !== undefined) {
+            FilterExpression.push('isActive = :isActive');
+            ExpressionAttributeValues[':isActive'] = String(isActive) === 'true';
+        }
+
+        const scanParams = { TableName };
+
+        if (FilterExpression.length > 0) {
+            scanParams.FilterExpression = FilterExpression.join(' AND ');
+            scanParams.ExpressionAttributeValues = ExpressionAttributeValues;
+            if (Object.keys(ExpressionAttributeNames).length > 0) {
+                scanParams.ExpressionAttributeNames = ExpressionAttributeNames;
+            }
+        }
+
+        const out = await docClient.send(new ScanCommand(scanParams));
         return res.json(out.Items || []);
     } catch (error) {
         console.error('[GET PRODUCTS ERROR]', error);

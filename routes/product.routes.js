@@ -1,5 +1,7 @@
 const { Router } = require('express');
 const multer = require('multer');
+const validate = require('../middlewares/validate');
+const { createProductSchema, updateProductSchema, updateStockSchema } = require('../validators/product.validators');
 
 const {
   getProducts,
@@ -18,6 +20,27 @@ const upload = multer({ storage: multer.memoryStorage() });
  *   get:
  *     summary: Retrieve a list of products
  *     tags: [Products]
+ *     parameters:
+ *       - in: query
+ *         name: category
+ *         schema:
+ *           type: string
+ *         description: Filter by category (e.g. ACCESSORIES)
+ *       - in: query
+ *         name: minPrice
+ *         schema:
+ *           type: number
+ *         description: Minimum price filter
+ *       - in: query
+ *         name: maxPrice
+ *         schema:
+ *           type: number
+ *         description: Maximum price filter
+ *       - in: query
+ *         name: isActive
+ *         schema:
+ *           type: boolean
+ *         description: Filter by availability (true/false)
  *     responses:
  *       200:
  *         description: A list of products.
@@ -87,7 +110,7 @@ router.get('/:id', getProductById);
  *             schema:
  *               $ref: '#/components/schemas/Product'
  */
-router.post('/', upload.single('image'), createProduct);
+router.post('/', upload.single('image'), validate(createProductSchema), createProduct);
 
 /**
  * @swagger
@@ -127,7 +150,7 @@ router.post('/', upload.single('image'), createProduct);
  *             schema:
  *               $ref: '#/components/schemas/Product'
  */
-router.put('/:id', upload.single('image'), updateProduct);
+router.put('/:id', upload.single('image'), validate(updateProductSchema), updateProduct);
 
 /**
  * @swagger
@@ -158,6 +181,6 @@ router.put('/:id', upload.single('image'), updateProduct);
  *             schema:
  *               $ref: '#/components/schemas/Product'
  */
-router.put('/:id/stock', updateProductStock);
+router.put('/:id/stock', validate(updateStockSchema), updateProductStock);
 
 module.exports = router;

@@ -42,7 +42,11 @@ app.get('/health/db/table', async (_req, res) => {
 const productRoutes = require('./routes/product.routes')
 app.use('/products', productRoutes)
 
-const PORT = process.env.PORT || 3000
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`)
-})
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`)
+  })
+}
+
+module.exports = app;
