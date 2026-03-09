@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  products-service:
+    build: .
+    container_name: products-service
+    ports:
+      - "3000:3000"
+    environment:
+      # These will be loaded from your local .env file
+      - AWS_REGION=${AWS_REGION}
+      - PRODUCTS_TABLE=${PRODUCTS_TABLE}
+      - S3_BUCKET_NAME=${S3_BUCKET_NAME}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped

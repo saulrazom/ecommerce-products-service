@@ -49,6 +49,7 @@ Each product stored in the table follows this structure:
   "currency": "string",
   "stock": 0,
   "isActive": true,
+  "imageUrl": "string",
   "createdAt": "ISO_DATE",
   "updatedAt": "ISO_DATE"
 }
@@ -65,6 +66,7 @@ Each product stored in the table follows this structure:
   "currency": "MXN",
   "stock": 50,
   "isActive": true,
+  "imageUrl": "https://s3-us-west-2.amazonaws.com/my-bucket/products/timestamp-filename.jpg",
   "createdAt": "2026-03-05T18:30:00Z",
   "updatedAt": "2026-03-05T18:30:00Z"
 }
@@ -80,5 +82,95 @@ Each product stored in the table follows this structure:
 | currency    | String  | Currency used for the price           |
 | stock       | Number  | Available stock quantity              |
 | isActive    | Boolean | Indicates if the product is available |
+| imageUrl    | String  | S3 Public URL of the product image    |
 | createdAt   | String  | Creation timestamp                    |
 | updatedAt   | String  | Last update timestamp                 |
+
+---
+
+# 🚀 Getting Started
+
+## 1. Environment Variables
+Create a `.env` file in the root of the project with the following configuration:
+
+```env
+PORT=3000
+AWS_REGION=us-east-1
+PRODUCTS_TABLE=Products
+S3_BUCKET_NAME=your-s3-bucket-name
+
+# AWS Credentials (If not using IAM/MFA Profiles)
+AWS_ACCESS_KEY_ID=your_access_key
+AWS_SECRET_ACCESS_KEY=your_secret_key
+```
+
+## 2. Running Locally (Without Docker)
+
+Install dependencies and start the development server:
+```bash
+npm install
+npm run dev
+```
+
+## 3. Running with Docker 🐳
+
+To containerize the application and run it entirely inside Docker, simply run:
+
+```bash
+docker-compose up --build -V
+```
+*Note: The `-V` flag ensures any old anonymous Node modules volumes are cleared, forcing a fresh `npm install` inside the container.*
+
+The API will be available at `http://localhost:3000`.
+
+---
+
+# 🛠 Features & Setup
+
+## 1. Database Seeding
+To populate your DynamoDB table with 20 sample products (useful for testing searches, filters, and pagination), run the seed script:
+```bash
+npm run seed
+```
+*Note: Make sure your AWS credentials and `PRODUCTS_TABLE` are configured correctly in the `.env` file first.*
+
+## 2. API Documentation (Swagger)
+The API uses **Swagger** for interactive documentation. Once the server is running (locally or via Docker), visit:
+👉 **[http://localhost:3000/api-docs](http://localhost:3000/api-docs)**
+
+From there, you can read the schemas and test all endpoints directly from your browser.
+
+## 3. Postman Collection (For Frontend & QA)
+We provide a pre-configured Postman Collection so frontend developers can easily test the API and understand its responses without setting up code.
+
+**How to use it:**
+1. Open [Postman](https://www.postman.com/downloads/).
+2. Click **Import** and select the `postman_collection.json` file located in the root of this repository.
+3. Open the imported folder `E-Commerce Products API`.
+4. To test `POST` or `PUT` endpoints that require images: Navigate to the **Body** tab in Postman, find the `image` field (set as type `File`), click "Select Files", choose an image from your computer, and hit **Send**.
+
+## 4. Running Unit Tests
+To run the Jest test suite and generate a code coverage report for the API:
+
+**Local Environment:**
+```bash
+npm test
+```
+
+**Inside Docker Container:**
+To ensure tests run correctly in the Linux environment without stopping your server:
+```bash
+docker-compose exec products-service npm test
+```
+
+### 📊 Visualizing Test Coverage (HTML Report)
+When you run the tests, Jest automatically generates a visual, interactive HTML report of your code coverage.
+
+1. Ensure your server is running (`npm run dev` or `docker-compose up`).
+2. Run the tests at least once to generate the report data (e.g. `npm test`).
+3. Open your browser and navigate to:
+   👉 **[http://localhost:3000/coverage](http://localhost:3000/coverage)**
+
+Here you can click through your folders and see exact line-by-line coverage highlighted in green/red/yellow.
+
+The test suite utilizes mocks (`aws-sdk-client-mock`) to simulate DynamoDB and S3 interactions, so it runs completely offline safely.

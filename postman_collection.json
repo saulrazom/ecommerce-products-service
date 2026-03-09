@@ -1,0 +1,246 @@
+{
+  "info": {
+    "_postman_id": "f8a0a030-8d59-45f8-8422-491b8a5b28d6",
+    "name": "E-Commerce Products API",
+    "description": "Postman Collection for the E-Commerce Products Microservice.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Get All Products",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products"
+          ],
+          "query": [
+            {
+              "key": "category",
+              "value": "ACCESSORIES",
+              "description": "Filter by category",
+              "disabled": true
+            },
+            {
+              "key": "minPrice",
+              "value": "100",
+              "description": "Filter by min price",
+              "disabled": true
+            },
+            {
+              "key": "maxPrice",
+              "value": "1000",
+              "description": "Filter by max price",
+              "disabled": true
+            },
+            {
+              "key": "isActive",
+              "value": "true",
+              "description": "Filter by stock availability",
+              "disabled": true
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Product by ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/products/:id",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "REPLACE_WITH_PRODUCT_ID"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Create Product",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "name",
+              "value": "Wireless Mechanical Keyboard",
+              "type": "text"
+            },
+            {
+              "key": "description",
+              "value": "RGB Wireless Mechanical Keyboard with blue switches",
+              "type": "text"
+            },
+            {
+              "key": "category",
+              "value": "ELECTRONICS",
+              "type": "text"
+            },
+            {
+              "key": "price",
+              "value": "1299.99",
+              "type": "text"
+            },
+            {
+              "key": "currency",
+              "value": "MXN",
+              "type": "text"
+            },
+            {
+              "key": "stock",
+              "value": "150",
+              "type": "text"
+            },
+            {
+              "key": "isActive",
+              "value": "true",
+              "type": "text"
+            },
+            {
+              "key": "image",
+              "type": "file",
+              "src": []
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/products",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Product",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "price",
+              "value": "1099.99",
+              "type": "text"
+            },
+            {
+              "key": "isActive",
+              "value": "false",
+              "type": "text",
+              "disabled": true
+            },
+            {
+              "key": "image",
+              "type": "file",
+              "src": [],
+              "disabled": true
+            }
+          ]
+        },
+        "url": {
+          "raw": "{{baseUrl}}/products/:id",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "REPLACE_WITH_PRODUCT_ID"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Product Stock",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"stock\": 25\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/products/:id/stock",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "products",
+            ":id",
+            "stock"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "REPLACE_WITH_PRODUCT_ID"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}
