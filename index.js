@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const { ListTablesCommand } = require('@aws-sdk/client-dynamodb')
 const { ScanCommand } = require('@aws-sdk/lib-dynamodb')
-const { client, docClient } = require('./utils/dynamoclient')
+const { client, docClient } = require('./utils/dynamoClient')
 
 const app = express() // <- debe existir antes de usar app.get(...)
 app.use(express.json())
