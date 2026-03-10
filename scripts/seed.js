@@ -1,6 +1,6 @@
 require('dotenv').config();
 const { PutCommand } = require('@aws-sdk/lib-dynamodb');
-const { docClient } = require('../utils/dynamoclient');
+const { docClient } = require('../utils/dynamoClient');
 const config = require('../config/env');
 const crypto = require('crypto');
 

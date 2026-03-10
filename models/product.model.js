@@ -1,6 +1,6 @@
 // src/models/product.model.js
 const { GetCommand, PutCommand, UpdateCommand, DeleteCommand, ScanCommand } = require("@aws-sdk/lib-dynamodb");
-const { docClient } = require("../utils/dynamoclient.js");
+const { docClient } = require("../utils/dynamoClient.js");
 
 const TABLE_NAME = process.env.PRODUCTS_TABLE;
 
