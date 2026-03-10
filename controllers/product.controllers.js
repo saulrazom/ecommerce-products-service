@@ -1,5 +1,5 @@
 const { ScanCommand, GetCommand, PutCommand, UpdateCommand } = require('@aws-sdk/lib-dynamodb');
-const { docClient } = require('../utils/dynamoclient');
+const { docClient } = require('../utils/dynamoClient');
 const config = require('../config/env');
 const crypto = require('crypto');
 const { uploadImageToS3 } = require('../utils/s3Client');
